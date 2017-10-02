@@ -72,8 +72,12 @@ IF ( OPENEXR_FOUND )
     ${OPENEXR_LOCATION}/include
     ${OPENEXR_LOCATION}/include/OpenEXR
     CACHE STRING "Openexr include directories")
-  SET ( OPENEXR_LIBRARYDIR ${OPENEXR_LOCATION}/lib
-    CACHE STRING "Openexr library directories")
+
+  IF ( NOT DEFINED OPENEXR_LIBRARYDIR )
+    SET ( OPENEXR_LIBRARYDIR ${OPENEXR_LOCATION}/lib
+      CACHE STRING "Openexr library directories")
+  ENDIF ()
+
   SET ( OPENEXR_FOUND TRUE )
 
 
