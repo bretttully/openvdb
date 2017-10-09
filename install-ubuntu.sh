@@ -17,7 +17,6 @@ PACKAGES+=" libglu1-mesa-dev "
 PACKAGES+=" xorg-dev"
 sudo apt-get install ${PACKAGES}
 
-
 rm -rf _build
 mkdir -p _build
 cd _build
@@ -28,12 +27,11 @@ echo ${PYTHON_SITE}
 cmake \
      -Wno-dev \
     -G Ninja \
-    -D OPENVDB_PRIVATE \
     -D OPENVDB_BUILD_UNITTESTS=OFF \
     -D CMAKE_CXX_FLAGS="-fPIC -std=c++11" \
  \
     -D BLOSC_LOCATION=/usr \
-    -D Blosc_USE_STATIC_LIBS=ON \
+    -D Blosc_USE_STATIC_LIBS=OFF \
  \
     -D TBB_LOCATION=/usr \
     -D TBB_LIBRARYDIR=/usr/lib/x86_64-linux-gnu \
@@ -52,7 +50,6 @@ cmake \
     -D GLFW3_LOCATION=/usr \
     -D GFLW3_LIBRARYDIR=/usr/lib/x86_64-linux-gnu \
     -D GLFW3_USE_STATIC_LIBS=OFF \
-    -D GL_GLEXT_PROTOTYPES=1 \
  \
     -D PYOPENVDB_INSTALL_DIRECTORY=${PYTHON_SITE} \
     ..
