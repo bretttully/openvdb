@@ -1,29 +1,29 @@
-# Copyright (c) 2012-2016 DreamWorks Animation LLC
-#
-# All rights reserved. This software is distributed under the
-# Mozilla Public License 2.0 ( http://www.mozilla.org/MPL/2.0/ )
-#
-# Redistributions of source code must retain the above copyright
-# and license notice and the following restrictions and disclaimer.
-#
-# *     Neither the name of DreamWorks Animation nor the names of
-# its contributors may be used to endorse or promote products derived
-# from this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-# IN NO EVENT SHALL THE COPYRIGHT HOLDERS' AND CONTRIBUTORS' AGGREGATE
-# LIABILITY FOR ALL CLAIMS REGARDLESS OF THEIR BASIS EXCEED US$250.00.
-#
+# License
+> Copyright (c) 2012-2016 DreamWorks Animation LLC
+> 
+> All rights reserved. This software is distributed under the
+> Mozilla Public License 2.0 ( http://www.mozilla.org/MPL/2.0/ )
+> 
+> Redistributions of source code must retain the above copyright
+> and license notice and the following restrictions and disclaimer.
+> 
+> * Neither the name of DreamWorks Animation nor the names of
+> its contributors may be used to endorse or promote products derived
+> from this software without specific prior written permission.
+> 
+> THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+> "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+> LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+> A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+> OWNER OR CONTRIBUTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
+> SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+> LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+> DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+> THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+> (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+> OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> IN NO EVENT SHALL THE COPYRIGHT HOLDERS' AND CONTRIBUTORS' AGGREGATE
+> LIABILITY FOR ALL CLAIMS REGARDLESS OF THEIR BASIS EXCEED US$250.00.
 
 # Overview
 
@@ -32,6 +32,74 @@ The CMake build infrastructure for OpenVDB is designed for out-of-source build. 
 # Examples
 
 Here are examples of build command for Linux, Windows and OS X
+
+## Ubuntu 16.04
+
+```{r, engine='bash', count_lines}
+#!/bin/bash
+set -e
+
+# NB: you may have to change the symlinks of boost python to point to the py3 versions
+PACKAGES=""
+PACKAGES+=" ninja-build"
+PACKAGES+=" cmake-curses-gui"
+PACKAGES+=" libblosc-dev"
+PACKAGES+=" libtbb-dev"
+PACKAGES+=" libz-dev"
+PACKAGES+=" libcppunit-dev"
+PACKAGES+=" liblog4cplus-dev "
+PACKAGES+=" libglfw3-dev "
+PACKAGES+=" libopenexr-dev"
+PACKAGES+=" libilmbase-dev"
+PACKAGES+=" libglu1-mesa-dev "
+PACKAGES+=" xorg-dev"
+sudo apt-get install ${PACKAGES}
+
+rm -rf _build
+mkdir -p _build
+cd _build
+
+PYTHON_SITE=`python -c 'from distutils.sysconfig import get_python_lib; print(get_python_lib())'`
+echo ${PYTHON_SITE}
+
+SYSTEM_LIB_DIR=/usr/lib/x86_64-linux-gnu
+
+cmake \
+    -Wno-dev \
+    -D CMAKE_SKIP_INSTALL_ALL_DEPENDENCY=ON \
+    -D CMAKE_CXX_FLAGS="-std=c++11 -O2 -g3" \
+ \
+    -D OPENVDB_BUILD_STATIC=OFF \
+    -D OPENVDB_BUILD_UNITTESTS=OFF \
+    -D OPENVDB_ENABLE_3_ABI_COMPATIBLE=OFF \
+ \
+    -D BLOSC_LOCATION=/usr \
+    -D Blosc_USE_STATIC_LIBS=OFF \
+ \
+    -D TBB_LOCATION=/usr \
+    -D TBB_LIBRARYDIR=${SYSTEM_LIB_DIR} \
+ \
+    -D ILMBASE_LOCATION=/usr \
+    -D ILMBASE_LIBRARYDIR=${SYSTEM_LIB_DIR} \
+    -D Ilmbase_USE_STATIC_LIBS=OFF \
+    -D ILMBASE_NAMESPACE_VERSIONING=OFF \
+ \
+    -D OPENEXR_LOCATION=/usr \
+    -D OPENEXR_LIBRARYDIR=${SYSTEM_LIB_DIR} \
+    -D Openexr_USE_STATIC_LIBS=OFF \
+    -D OPENEXR_NAMESPACE_VERSIONING=OFF \
+ \
+    -D USE_GLFW3=ON \
+    -D GLFW3_LOCATION=/usr \
+    -D GFLW3_LIBRARYDIR=${SYSTEM_LIB_DIR} \
+    -D GLFW3_USE_STATIC_LIBS=OFF \
+ \
+    -D PYOPENVDB_INSTALL_DIRECTORY=${PYTHON_SITE} \
+    ..
+    
+make pyopenvdb vdb_print
+sudo make install
+```
 
 ## OS X
 
