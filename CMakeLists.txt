@@ -34,6 +34,7 @@ ENABLE_TESTING()
 
 OPTION ( OPENVDB_BUILD_UNITTESTS "Build the OpenVDB unit tests" ON )
 OPTION ( OPENVDB_BUILD_DOCS "Build the OpenVDB documentation" OFF )
+OPTION ( OPENVDB_BUILD_STATIC "Build the OpenVDB as a static library" ON )
 OPTION ( OPENVDB_BUILD_PYTHON_MODULE "Build the pyopenvdb Python module" ON )
 OPTION ( OPENVDB_BUILD_HOUDINI_SOPS "Build the Houdini SOPs" OFF )
 OPTION ( OPENVDB_BUILD_MAYA_PLUGIN "Build the Maya plugin" OFF )

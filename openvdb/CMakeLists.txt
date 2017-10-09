@@ -411,6 +411,7 @@ IF ( NOT WIN32 )
     vdb_view
     DESTINATION
     bin
+    OPTIONAL
     )
 ENDIF ()
 INSTALL ( TARGETS
@@ -418,13 +419,16 @@ INSTALL ( TARGETS
   vdb_render
   DESTINATION
   bin
+  OPTIONAL
   )
 
-INSTALL ( TARGETS
-  openvdb_static
-  DESTINATION
-  lib
-  )
+IF (OPENVDB_BUILD_STATIC)
+  INSTALL ( TARGETS
+    openvdb_static
+    DESTINATION
+    lib
+    )
+ENDIF()
 
 IF (WIN32)
   INSTALL ( TARGETS
