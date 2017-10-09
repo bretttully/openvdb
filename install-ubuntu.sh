@@ -26,9 +26,8 @@ echo ${PYTHON_SITE}
 
 cmake \
      -Wno-dev \
-    -G Ninja \
     -D OPENVDB_BUILD_UNITTESTS=OFF \
-    -D CMAKE_CXX_FLAGS="-fPIC -std=c++11" \
+    -D CMAKE_CXX_FLAGS="-std=c++11" \
  \
     -D BLOSC_LOCATION=/usr \
     -D Blosc_USE_STATIC_LIBS=OFF \
@@ -54,4 +53,6 @@ cmake \
     -D PYOPENVDB_INSTALL_DIRECTORY=${PYTHON_SITE} \
     ..
 
-sudo ninja install
+#sudo ninja -j 1 install
+make
+sudo make install
